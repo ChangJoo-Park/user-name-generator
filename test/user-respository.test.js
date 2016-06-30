@@ -32,6 +32,13 @@ suite('UserRepository', function() {
       assert.isUndefined(user, 'user is undefined');
     });
 
+    test('should return User type object when userName exists', function(){
+      user = repository.findByUserName('pcjpcj2');
+      assert.typeOf(user, 'object');
+      assert.equal(user.constructor.name, 'User');
+    });
+
+
     test('should return user object when userName exists', function() {
       user = repository.findByUserName('pcjpcj2');
       assert.isDefined(user, 'userName is pcjpcj2');
