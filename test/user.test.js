@@ -32,17 +32,29 @@ suite('User', function(){
     });
   });
 
-  suite('#get email()', function(){
+  suite('#get set email()', function(){
     test('should return pcjpcj2@gmail.com', function(){
       let user = new User({email: 'pcjpcj2@gmail.com', userName: 'ChangJoo Park'});
       assert.equal(user.email,'pcjpcj2@gmail.com');
     });
 
     test('should return abcd@gmail.com', function(){
-      let user = new User({email: 'abcd@gmail.com', userName: 'AAAA'});
+      let user = new User({email: 'pcjpcj2@gmail.com', userName: 'ChangJoo Park'});
+      user.email = 'abcd2@gmail.com';
       assert.equal(user.email,'abcd2@gmail.com');
     });
-
   });
 
+  suite('#get set userName()', function(){
+    test('should return ChangJoo Park', function(){
+      let user = new User({email: 'pcjpcj2@gmail.com', userName: 'ChangJoo Park'});
+      assert.equal(user.userName, 'ChangJoo Park');
+    });
+
+    test('should return John Doe', function(){
+      let user = new User({email: 'pcjpcj2@gmail.com', userName: 'ChangJoo Park'});
+      user.userName = 'John Doe';
+      assert.equal(user.userName,'John Doe');
+    });
+  });
 });
