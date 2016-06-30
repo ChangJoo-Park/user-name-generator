@@ -33,33 +33,44 @@ suite('User', function(){
   });
 
   suite('#get set email()', function(){
+    let user = undefined;
+
+    setup(function(){
+      user = new User({email: 'pcjpcj2@gmail.com', userName: 'pcjpcj2'});
+    });
+
+    teardown(function(){
+      user = undefined;
+    });
+
     test('should return pcjpcj2@gmail.com', function(){
-      let user = createDummyUser();
       assert.equal(user.email,'pcjpcj2@gmail.com');
     });
 
     test('should return johndoe@gmail.com', function(){
-      let user = createDummyUser();
       user.email = 'johndoe@gmail.com';
       assert.equal(user.email,'johndoe@gmail.com');
     });
   });
 
   suite('#get set userName()', function(){
+    let user = undefined;
+
+    setup(function(){
+      user = new User({email: 'pcjpcj2@gmail.com', userName: 'pcjpcj2'});
+    });
+
+    teardown(function(){
+      user = undefined;
+    });
+
     test('should return pcjpcj2', function(){
-      let user = createDummyUser();
       assert.equal(user.userName, 'pcjpcj2');
     });
 
     test('should return John Doe', function(){
-      let user = createDummyUser();
       user.userName = 'johndoe';
       assert.equal(user.userName,'johndoe');
     });
   });
 });
-
-
-let createDummyUser = function() {
-  return new User({email: 'pcjpcj2@gmail.com', userName: 'pcjpcj2'});
-}
