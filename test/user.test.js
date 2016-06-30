@@ -1,8 +1,7 @@
 import Mocha from 'mocha';
 import { assert } from 'chai';
-import 'babel-polyfill'
 import User from '../lib/models/user';
-const { suite, suiteSetup, suiteTeardown, setup, teardown, test} = Mocha;
+const { suite, setup, teardown, test} = Mocha;
 
 
 suite('User', function(){

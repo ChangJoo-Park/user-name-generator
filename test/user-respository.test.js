@@ -1,9 +1,8 @@
 import Mocha from 'mocha';
 import { assert } from 'chai';
-import 'babel-polyfill';
-const { suite, suiteSetup, suiteTeardown, setup, teardown, test} = Mocha;
+const { suite, setup, teardown, test} = Mocha;
+
 import UserMockRepository from '../lib/services/user-mock-repository';
-import User from '../lib/models/user';
 
 suite('UserRepository', function() {
   suite('#constructor()', function(){
