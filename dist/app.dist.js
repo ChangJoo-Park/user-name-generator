@@ -66,9 +66,8 @@
 
 	var userGenerator = new _userNameGenerator2.default();
 	var userRepository = new _userMockRepository2.default();
-	var userStore = [];
 	var sortByUserName = true;
-	var duplicated = 0;
+	var userStore = [];
 
 	document.addEventListener("DOMContentLoaded", function (event) {
 	  loadUsers();
@@ -76,6 +75,7 @@
 
 	document.getElementById('user-validator-form').addEventListener('submit', function (event) {
 	  event.preventDefault();
+
 	  var emailInput = document.getElementById("new-email");
 	  var userInput = document.getElementById("new-name");
 	  var userEmail = emailInput.value;
@@ -87,17 +87,20 @@
 	  var emailInputValue = document.getElementById("new-email").value;
 	  var userInputValue = document.getElementById("new-name").value;
 	  var newUser = new _user2.default({ email: emailInputValue, userName: userInputValue });
+
 	  userRepository.addUserToStore(newUser).then(function (result) {
 	    console.log(result);
 	  }, function (errors) {
 	    console.error(errors);
 	  });
+
 	  loadUsers();
 	});
 
 	document.getElementById('automate-test').addEventListener('click', function () {
 	  document.getElementById('automate-test').disabled = true;
 	  document.getElementById('automate-test').className = 'ui secondary loading button';
+
 	  for (var i = 0; i < 2000; i++) {
 	    var email = faker.internet.email();
 	    var userName = userGenerator.generate(email, userRepository);
@@ -106,7 +109,9 @@
 	      console.error(errors);
 	    });
 	  }
+
 	  loadUsers();
+
 	  document.getElementById('automate-test').className = 'ui secondary button';
 	  document.getElementById('automate-test').disabled = false;
 	});
@@ -114,17 +119,21 @@
 	function loadUsers() {
 	  userStore = userRepository.getUsers();
 	  var sortedUserStore = [];
+
 	  if (sortByUserName) {
 	    sortedUserStore = userStore.sort(function (user1, user2) {
 	      return user1.userName > user2.userName;
 	    });
 	  }
+
 	  var html = '<h1 class="ui dividing header">Total User List - ' + sortedUserStore.length + '</h1>';
 	  html += '<table class="ui celled table"><thead><tr><th>Email</th><th>UserName</th></tr></thead><tbody>';
+
 	  sortedUserStore.forEach(function (user) {
 	    var userDOM = '<tr><td>' + user.email + '</td> <td>' + user.userName + '</td></tr>';
 	    html += userDOM;
 	  });
+
 	  html += '</tbody></table>';
 	  document.getElementById('user-list').innerHTML = html;
 	}
@@ -146,6 +155,7 @@
 	    if (!userInfo.email || !userInfo.userName) {
 	      throw 'Need User Info {email, userName}';
 	    }
+
 	    this._email = userInfo.email;
 	    this._userName = userInfo.userName;
 	  }
@@ -206,10 +216,12 @@
 	      var userName = _emailValidator2.default.splitParts(email).local;
 	      var newUserName = userName;
 	      var user = repository.findByUserName(newUserName);
+
 	      while (user) {
 	        newUserName = this.randomize(newUserName);
 	        user = repository.findByUserName(newUserName);
 	      }
+
 	      return newUserName;
 	    }
 	  }, {
@@ -217,12 +229,15 @@
 	    value: function validateParameters(email, repository) {
 	      var isValidEmail = _emailValidator2.default.validate(email);
 	      var isValidRepository = repository instanceof _userRepository2.default;
+
 	      if (isValidEmail && isValidRepository) {
 	        return true;
 	      }
+
 	      var errorMessages = '';
 	      errorMessages += !isValidEmail ? '#validateParameters : Email is invalid.\n' : '';
 	      errorMessages += !isValidRepository ? '#validateParameters : given repository is not User Repository.\n' : '';
+
 	      throw new Error(errorMessages);
 	    }
 	  }, {
@@ -232,9 +247,11 @@
 	      var appendableText = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 	      var numberOfAppendables = 62; // appendableText.length
 	      var numberOfCharacter = 3;
+
 	      for (var i = 0; i < numberOfCharacter; i++) {
 	        userName += appendableText.charAt(Math.floor(Math.random() * numberOfAppendables));
 	      }
+
 	      return userName;
 	    }
 	  }]);
@@ -265,6 +282,7 @@
 	      if (!email) {
 	        return false;
 	      }
+
 	      if (email.length > 320) {
 	        // local(64) + @ + domain(255)
 	        return false;
@@ -274,10 +292,12 @@
 	      if (!emailRegex.test(email)) {
 	        return false;
 	      }
+
 	      var parts = this.splitParts(email);
 	      if (parts.local.length > 64 || parts.domain > 255) {
 	        return false;
 	      }
+
 	      return true;
 	    }
 	  }, {
@@ -366,6 +386,7 @@
 	      _this._store = [];
 	      _this.populateUsers();
 	    }
+
 	    return _ret = UserMockRepository.instance, _possibleConstructorReturn(_this, _ret);
 	  }
 
@@ -380,6 +401,7 @@
 	      var user = this._store.find(function (user) {
 	        return user.userName === userName;
 	      });
+
 	      return user;
 	    }
 	  }, {
@@ -391,15 +413,17 @@
 	    key: 'addUserToStore',
 	    value: function addUserToStore(newUser) {
 	      var that = this;
+
 	      return new Promise(function (resolve, reject) {
-	        var user = that._store.find(function (user) {
+	        var existsUser = that._store.find(function (user) {
 	          return user.userName === newUser.userName;
 	        });
-	        if (typeof user === 'undefined') {
+
+	        if (!existsUser) {
 	          that._store.push(newUser);
 	          resolve(newUser);
 	        } else {
-	          reject({ error: "find duplicated userName" });
+	          reject({ error: 'find duplicated userName' });
 	        }
 	      });
 	    }
