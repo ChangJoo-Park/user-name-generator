@@ -153,7 +153,7 @@
 	    _classCallCheck(this, User);
 
 	    if (!userInfo.email || !userInfo.userName) {
-	      throw 'Need User Info {email, userName}';
+	      throw new Error('Need User Info {email, userName}');
 	    }
 
 	    this._email = userInfo.email;
@@ -294,7 +294,7 @@
 	      }
 
 	      var parts = this.splitParts(email);
-	      if (parts.local.length > 64 || parts.domain > 255) {
+	      if (parts.local.length > 64 || parts.domain.length > 255) {
 	        return false;
 	      }
 
