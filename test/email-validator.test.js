@@ -27,6 +27,27 @@ suite('EmailValidator', function() {
       assert.isFalse(EmailValidator.validate(null));
     });
 
+    test('should return false more than 320 characters', function(){
+      let longEmail = `${'a'.repeat(100)}@${'b'.repeat(220)}.com`;
+      assert.isFalse(EmailValidator.validate(longEmail));
+    });
+
+    test('should local part is less than 65 charactes', function(){
+      let longEmail = `${'a'.repeat(65)}@gmail.com`;
+      assert.isFalse(EmailValidator.validate(longEmail));
+
+      longEmail = `${'a'.repeat(64)}@gmail.com`;
+      assert.isTrue(EmailValidator.validate(longEmail));
+    });
+
+    test('should domain part is less than 255 charactes', function(){
+      let longEmail = `pcjpcj2@${'g'.repeat(252)}.com`;
+      assert.isFalse(EmailValidator.validate(longEmail));
+
+      longEmail = `pcjpcj2@${'g'.repeat(251)}.com`;
+      assert.isTrue(EmailValidator.validate(longEmail));
+    });
+
     test('should return false invalid type of email', function() {
       assert.isFalse(EmailValidator.validate('Abc.example.com'));
       assert.isFalse(EmailValidator.validate('A@b@c@example.com'));
