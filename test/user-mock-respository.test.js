@@ -4,12 +4,15 @@ const { suite, setup, teardown, test} = Mocha;
 
 import UserMockRepository from '../lib/services/user-mock-repository';
 
-suite('UserRepository', function() {
+suite('UserMockRepository', function() {
   suite('#constructor()', function(){
     test('should user repository create only one instance', function(){
       let repository1 = new UserMockRepository();
       let repository2 = new UserMockRepository();
       assert.equal(repository1, repository2, 'repository must create only one instance');
+
+      let repository3 = repository1.getInstance();
+      assert.equal(repository1, repository3, 'repository must create only one instance');
     });
   });
 
