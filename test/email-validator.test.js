@@ -22,35 +22,35 @@ suite('EmailValidator', function() {
   */
   suite('#validate', function() {
     test('should return false empty email', function() {
-      assert.isNotTrue(EmailValidator.validate(''));
-      assert.isNotTrue(EmailValidator.validate(undefined));
-      assert.isNotTrue(EmailValidator.validate(null));
+      assert.isFalse(EmailValidator.validate(''));
+      assert.isFalse(EmailValidator.validate(undefined));
+      assert.isFalse(EmailValidator.validate(null));
     });
 
     test('should return false invalid type of email', function() {
-      assert.isNotTrue(EmailValidator.validate('Abc.example.com'));
-      assert.isNotTrue(EmailValidator.validate('A@b@c@example.com'));
-      assert.isNotTrue(EmailValidator.validate('john..doe@example.com'));
-      assert.isNotTrue(EmailValidator.validate('john.doe@example..com'));
-      assert.isNotTrue(EmailValidator.validate('a@a'));
+      assert.isFalse(EmailValidator.validate('Abc.example.com'));
+      assert.isFalse(EmailValidator.validate('A@b@c@example.com'));
+      assert.isFalse(EmailValidator.validate('john..doe@example.com'));
+      assert.isFalse(EmailValidator.validate('john.doe@example..com'));
+      assert.isFalse(EmailValidator.validate('a@a'));
     });
 
     test('should local part start with a-z, A-Z, 0-9.', function() {
-      assert.isNotTrue(EmailValidator.validate('!pcjpcj2@gmail.com'));
-      assert.isNotTrue(EmailValidator.validate('+pcjpcj2@gmail.com'));
-      assert.isNotTrue(EmailValidator.validate('~pcjpcj2@gmail.com'));
+      assert.isFalse(EmailValidator.validate('!pcjpcj2@gmail.com'));
+      assert.isFalse(EmailValidator.validate('+pcjpcj2@gmail.com'));
+      assert.isFalse(EmailValidator.validate('~pcjpcj2@gmail.com'));
     });
 
     test('should domain part has lower case.', function() {
-      assert.isNotTrue(EmailValidator.validate('pcjpcj2@Gmail.com'));
-      assert.isNotTrue(EmailValidator.validate('pcjpcj2@NAVER.COM'));
+      assert.isFalse(EmailValidator.validate('pcjpcj2@Gmail.com'));
+      assert.isFalse(EmailValidator.validate('pcjpcj2@NAVER.COM'));
       assert.isTrue(EmailValidator.validate('pcjpcj2@naver.com'));
     });
 
     test('should domain part does not have more than 3 parts.', function() {
       assert.isTrue(EmailValidator.validate('pcjpcj2@gmail.com'));
       assert.isTrue(EmailValidator.validate('pcjpcj2@gmail.co.kr'));
-      assert.isNotTrue(EmailValidator.validate('pcjpcj2@gmail.co.kr.not.kr'));
+      assert.isFalse(EmailValidator.validate('pcjpcj2@gmail.co.kr.not.kr'));
     });
   });
 });
