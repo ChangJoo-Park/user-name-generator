@@ -23,26 +23,18 @@
 ## 사용 방법
 https://changjoo-park.github.io/user-name-generator/
 
-
 또는
 
 ```terminal
 # npm이 우선 설치되어 있어야 합니다. Node.js - https://nodejs.org
 git clone https://github.com/ChangJoo-Park/user-name-generator
 npm install
-npm install -g webpack
-webpack
-open index.html
+gulp # 또는 gulp watch (개발시 파일 변경 추적용)
 ```
 
-## 테스트
+## 테스트만 할 경우
 ```terminal
-npm run test
-```
-
-## 코드 포맷
-```terminal
-# eslint가 사전에 설치되어 있어야 합니다.
-npm install -g eslint
-npm run lint
+gulp test 
+# 또는
+gulp test:coverage # code coverage 출력
 ```
