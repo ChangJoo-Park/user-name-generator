@@ -21,12 +21,13 @@
 - domain part의 주소는 "."이 두개 까지만 사용 됨 (github.com.com.com 불가)
 
 ## 사용 방법
-
 https://changjoo-park.github.io/user-name-generator/
+
 
 또는
 
 ```terminal
+# npm이 우선 설치되어 있어야 합니다. Node.js - https://nodejs.org
 git clone https://github.com/ChangJoo-Park/user-name-generator
 npm install
 npm install -g webpack
