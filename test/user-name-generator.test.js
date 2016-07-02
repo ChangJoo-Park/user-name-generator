@@ -3,42 +3,49 @@ import { assert } from 'chai';
 const { suite, setup, teardown, test} = Mocha;
 import UserNameGenerator from '../lib/helpers/user-name-generator';
 import UserMockRepository from '../lib/services/user-mock-repository';
+import { MAX_USER_NAME_LENGTH, PREFIX_LENGTH } from '../lib/generator.config';
 
 suite('UserNameGenerator', function() {
+  let generator = undefined;
+  let repository = undefined;
+  setup(function(){
+    generator = new UserNameGenerator();
+    repository = new UserMockRepository();
+  });
+
+  teardown(function(){
+    generator = undefined;
+    repository = undefined;
+  });
   suite('#generate', function() {
-    let generator = undefined;
-    let repository = undefined;
-    setup(function(){
-      generator = new UserNameGenerator();
-      repository = new UserMockRepository();
-    });
-
-    teardown(function(){
-      generator = undefined;
-      repository = undefined;
-    });
-
     test('should generate unique name', function() {
       let email = 'pcjpcj2@gmail.com';
       let userName = generator.generate(email, repository);
       let user = repository.findByUserName(userName);
-      assert.isUndefined(user);
+      assert.isFalse(!!user);
+    });
+  });
+
+  suite('#checkDuplicateUserName', function() {
+    test('should return true when find user', function() {
+      assert.isTrue(!!generator.checkDuplicateUserName('pcjpcj2', repository));
+      assert.isFalse(!!generator.checkDuplicateUserName('pcjpcj3', repository));
+    });
+
+    test('should throw Error when length more than MAX_USER_NAME_LENGTH - PREFIX_LENGTH', function() {
+      const longUserName = 'a'.repeat(MAX_USER_NAME_LENGTH);
+      assert.throws(function() {
+        generator.checkDuplicateUserName(longUserName, repository);
+      });
+
+      const longButNotMaxLengthUserName = 'a'.repeat(MAX_USER_NAME_LENGTH - PREFIX_LENGTH - 1);
+      assert.doesNotThrow(function() {
+        generator.checkDuplicateUserName(longButNotMaxLengthUserName, repository);
+      });
     });
   });
 
   suite('#validateParameters', function() {
-    let generator = undefined;
-    let repository = undefined;
-    setup(function(){
-      generator = new UserNameGenerator();
-      repository = new UserMockRepository();
-    });
-
-    teardown(function(){
-      generator = undefined;
-      repository = undefined;
-    });
-
     test('should email and repository are validate parameters', function() {
       assert.doesNotThrow(function(){
         generator.validateParameters('pcjpcj2@gmail.com', repository);
@@ -64,21 +71,10 @@ suite('UserNameGenerator', function() {
 
   });
 
-  suite('#randomize', function() {
-    let generator = undefined;
-    setup(function(){
-      generator = new UserNameGenerator();
-    });
-
-    teardown(function(){
-      generator = undefined;
-    });
-
-    test('should randomize name', function() {
-      for(let i = 0; i < 10000; i++){
-        let name = generator.randomize('pcjpcj2');
-        assert.notEqual(name, 'pcjpcj2');
-      }
+  suite('#getRandomPrefixer', function() {
+    test('should have 3 characters alphabet and number, ', function() {
+      const prefixerTester = /[a-zA-Z0-9]{3}/;
+      assert.isTrue(prefixerTester.test(generator.getRandomPrefixer()));
     });
   });
 });
