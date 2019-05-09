@@ -208,7 +208,7 @@
 	      var newUserName = _emailValidator2.default.splitParts(email).local;
 
 	      while (this.checkDuplicateUserName(newUserName, repository)) {
-	        newUserName += this.getRandomPrefixer();
+	        newUserName += this.getRandomPostfix();
 	      }
 
 	      return newUserName;
@@ -240,8 +240,8 @@
 	      throw new Error(errorMessages);
 	    }
 	  }, {
-	    key: 'getRandomPrefixer',
-	    value: function getRandomPrefixer() {
+	    key: 'getRandomPostfix',
+	    value: function getRandomPostfix() {
 	      // same localpart + Maximum 238_328 cases random characters
 	      var appendableText = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 	      var numberOfAppendables = 62; // appendableText.length

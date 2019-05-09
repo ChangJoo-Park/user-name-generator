@@ -71,10 +71,10 @@ suite('UserNameGenerator', function() {
 
   });
 
-  suite('#getRandomPrefixer', function() {
+  suite('#getRandomPostfix', function() {
     test('should have 3 characters alphabet and number, ', function() {
       const prefixerTester = /[a-zA-Z0-9]{3}/;
-      assert.isTrue(prefixerTester.test(generator.getRandomPrefixer()));
+      assert.isTrue(prefixerTester.test(generator.getRandomPostfix()));
     });
   });
 });
